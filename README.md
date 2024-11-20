@@ -1,6 +1,7 @@
 ## Benchmark Try Catch Throw overhead
 
 .net9.0
+processor = Qualcomm Snapdragon X Elite - X1E-78-100
 
 ## Results
 ```
