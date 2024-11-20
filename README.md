@@ -8,7 +8,7 @@ processor = Qualcomm Snapdragon X Elite - X1E-78-100
 
 TryCatch block does not add noticeable overhead, it is error throwing that incurs overhead.
 
-The overhead from throwing and catching an exception is ~0.002ms, which is unoticeable in real world application.
+The overhead from throwing and catching an exception resulted with ~0.002ms, which is unoticeable in real world application.
 
 ## Results
 ```
