@@ -4,6 +4,12 @@
 
 processor = Qualcomm Snapdragon X Elite - X1E-78-100
 
+## Conclusion
+
+TryCatch block does not add noticeable overhead, it is error throwing that incurs overhead.
+
+The overhead from throwing and catching an exception is ~0.002ms, which is unoticeable in real world application.
+
 ## Results
 ```
 BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.2314)
