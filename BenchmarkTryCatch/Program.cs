@@ -4,6 +4,7 @@ using BenchmarkDotNet.Running;
 
 BenchmarkRunner.Run<TryCatchOverHead>();
 
+[MemoryDiagnoser(true)]
 public class TryCatchOverHead()
 {
 
