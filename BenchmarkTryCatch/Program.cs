@@ -1,9 +1,12 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 
 
 BenchmarkRunner.Run<TryCatchOverHead>();
 
+[SimpleJob(RuntimeMoniker.Net80)]
+[SimpleJob(RuntimeMoniker.Net90)]
 [MemoryDiagnoser(true)]
 public class TryCatchOverHead()
 {

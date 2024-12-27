@@ -8,31 +8,38 @@ processor = Qualcomm Snapdragon X Elite - X1E-78-100
 
 TryCatch block does not add noticeable overhead, but the exception throwing that incurs overhead.
 
-The overhead from throwing and catching an exception resulted with ~0.002ms, which is unoticeable in real world application.
+The overhead from throwing and catching an exception resulted with ~0.002ms in .net9, which is unoticeable in real world application.
 
 ## Results
+
 ```
 // * Summary *
 
 BenchmarkDotNet v0.14.0, Windows 11 (10.0.26100.2605)
 Unknown processor
 .NET SDK 9.0.101
-  [Host]     : .NET 9.0.0 (9.0.24.52809), Arm64 RyuJIT AdvSIMD
-  DefaultJob : .NET 9.0.0 (9.0.24.52809), Arm64 RyuJIT AdvSIMD
+  [Host]   : .NET 9.0.0 (9.0.24.52809), Arm64 RyuJIT AdvSIMD
+  .NET 8.0 : .NET 8.0.11 (8.0.1124.51707), Arm64 RyuJIT AdvSIMD
+  .NET 9.0 : .NET 9.0.0 (9.0.24.52809), Arm64 RyuJIT AdvSIMD
 
 
-| Method                   | Mean       | Error    | StdDev   | Gen0   | Allocated |
-|------------------------- |-----------:|---------:|---------:|-------:|----------:|
-| TryCatch_NoError         |   448.1 ns |  1.50 ns |  1.33 ns | 0.0095 |      40 B |
-| NoTryCatch_NoError       |   449.9 ns |  1.24 ns |  1.03 ns | 0.0095 |      40 B |
-| TryCatch_WithErrorOption |   442.8 ns |  1.67 ns |  1.56 ns | 0.0095 |      40 B |
-| TryCatch_WithThrow       | 2,256.7 ns | 15.10 ns | 13.38 ns | 0.0839 |     360 B |
+| Method                   | Job      | Runtime  | Mean       | Error    | StdDev   | Gen0   | Allocated |
+|------------------------- |--------- |--------- |-----------:|---------:|---------:|-------:|----------:|
+| TryCatch_NoError         | .NET 8.0 | .NET 8.0 |   443.8 ns |  1.72 ns |  1.53 ns | 0.0095 |      40 B |
+| NoTryCatch_NoError       | .NET 8.0 | .NET 8.0 |   442.4 ns |  0.89 ns |  0.83 ns | 0.0095 |      40 B |
+| TryCatch_WithErrorOption | .NET 8.0 | .NET 8.0 |   438.0 ns |  0.96 ns |  0.80 ns | 0.0095 |      40 B |
+| TryCatch_WithThrow       | .NET 8.0 | .NET 8.0 | 5,672.0 ns | 11.63 ns | 10.31 ns | 0.0610 |     264 B |
+| TryCatch_NoError         | .NET 9.0 | .NET 9.0 |   443.8 ns |  1.16 ns |  1.08 ns | 0.0095 |      40 B |
+| NoTryCatch_NoError       | .NET 9.0 | .NET 9.0 |   444.3 ns |  0.77 ns |  0.72 ns | 0.0095 |      40 B |
+| TryCatch_WithErrorOption | .NET 9.0 | .NET 9.0 |   440.0 ns |  0.75 ns |  0.70 ns | 0.0095 |      40 B |
+| TryCatch_WithThrow       | .NET 9.0 | .NET 9.0 | 2,296.0 ns |  3.01 ns |  2.51 ns | 0.0839 |     360 B |
 
 // * Hints *
 Outliers
-  TryCatchOverHead.TryCatch_NoError: Default   -> 1 outlier  was  removed (456.66 ns)
-  TryCatchOverHead.NoTryCatch_NoError: Default -> 2 outliers were removed (455.75 ns, 470.15 ns)
-  TryCatchOverHead.TryCatch_WithThrow: Default -> 1 outlier  was  removed (2.34 us)
+  TryCatchOverHead.TryCatch_NoError: .NET 8.0         -> 1 outlier  was  removed, 2 outliers were detected (442.53 ns, 449.45 ns)
+  TryCatchOverHead.TryCatch_WithErrorOption: .NET 8.0 -> 2 outliers were removed (469.89 ns, 484.67 ns)
+  TryCatchOverHead.TryCatch_WithThrow: .NET 8.0       -> 1 outlier  was  removed (5.72 us)
+  TryCatchOverHead.TryCatch_WithThrow: .NET 9.0       -> 2 outliers were removed (2.31 us, 2.31 us)
 
 // * Legends *
   Mean      : Arithmetic mean of all measurements
@@ -46,8 +53,9 @@ Outliers
 
 
 // ***** BenchmarkRunner: End *****
-Run time: 00:01:28 (88.98 sec), executed benchmarks: 4
+Run time: 00:03:07 (187.91 sec), executed benchmarks: 8
 
-Global total time: 00:01:33 (93.84 sec), executed benchmarks: 4
+Global total time: 00:03:16 (196.05 sec), executed benchmarks: 8
+
 
 ```
